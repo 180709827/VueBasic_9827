@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+<body class="bg-info">
+    <div id="app">
+        <div class="col-4 justify-content-center mx-auto h-100" style="overflow-y: auto;max-height: 370px;">
+            <div v-for="(todo,index) in todos" :key="index">
+                <div class="card my-2">
+                    <div class="card-body">
+                        <span class="float-right"><button class="btn btn-sm" @click="hapus(index)">x</button></span>
+                        <span v-if="todo.priority == 'penting'" class="badge badge-light text-danger">{{ todo.priority }}</span>
+                        <span v-else-if="todo.priority == 'biasa'" class="badge badge-light text-primary">{{ todo.priority }}</span>
+                        <span v-else-if="todo.priority == 'tidak penting'" class="badge badge-light text-success">{{ todo.priority }}</span>
+                        <br>
+                        <h4>{{ todo.title }}</h4>
+                        <p>{{ todo.catatan }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 justify-content-center mx-auto mt-4">
+            <div class="card p-4">
+                <div class="form-group">
+                    <label for="title"><strong>apa yang sedang kamu kerjakan ?</strong> </label>
+                    <input type="text"  class="form-control" id="title" >
+                </div>
+                <div class="form-group">
+                    <label for="priority"><strong>penting atau tidak ?</strong> </label>
+                    <select name="priority"  id="priority" class="form-control">
+                        <option value="penting">penting</option>
+                        <option value="biasa">biasa</option>
+                        <option value="tidak penting">tidak penting</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="catatan"><strong>ada catatan penting ?</strong> </label>
+                    <textarea class="form-control" id="catatan"></textarea>
+                </div>
+                <div>
+                    <button class="btn btn-dark" @click="reset">Reset</button>
+                    <button class="btn btn-primary" @click="simpan">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            todos:[
+                
+            ],
+        },
+        methods: {
+            simpan() {
+                let catatan = document.getElementById('catatan');
+                let title = document.getElementById('title');
+                let priority = document.getElementById('priority');
+                
+                let todo = {
+                    title : title.value,
+                    priority : priority.value,
+                    catatan : catatan.value,
+                }
+                document.getElementById('catatan').value="";
+                document.getElementById('title').value="";
+                document.getElementById('priority').value="";
+                this.todos.push(todo);
+                console.log(this.todos);
+            },
+            reset(){
+                document.getElementById('catatan').value="";
+                document.getElementById('title').value="";
+                document.getElementById('priority').value="";
+            },
+            hapus(index){
+                this.todos.splice(index,1);
+            },
+        },
+    });
+</script>
+</html>
